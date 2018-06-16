@@ -38,11 +38,17 @@ do_pre_regen() {
   for domain in $domain_list; do
     domain_conf_dir="${nginx_conf_dir}/${domain}.d"
     mkdir -p "$domain_conf_dir"
+    mkdir -p "/var/www/${domain}/.well-known/autoconfig/mail/"
 
     # NGINX server configuration
     cat server.tpl.conf \
       | sed "s/{{ domain }}/${domain}/g" \
       > "${nginx_conf_dir}/${domain}.conf"
+
+    cat autoconfig.tpl.xml \
+      | sed "s/{{ domain }}/${domain}/g" \
+      > "/var/www/${domain}/.well-known/autoconfig/mail/config-v1.1.xml"
+
 
     [[ $main_domain != $domain ]] \
       && touch "${domain_conf_dir}/yunohost_local.conf" \
