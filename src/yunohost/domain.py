@@ -59,7 +59,9 @@ def domain_list():
 
     result_list = []
     for domain in result:
-        result_list.append(domain['virtualdomain'][0])
+        parent_domain = domain['virtualdomain'][0]
+        result_list.append(parent_domain)
+        result_list.append("jabber." + parent_domain)
 
     return {'domains': result_list}
 
@@ -347,6 +349,7 @@ def _build_dns_conf(domain, ttl=3600):
             {"type": "CNAME", "name": "muc", "value": "@", "ttl": 3600},
             {"type": "CNAME", "name": "pubsub", "value": "@", "ttl": 3600},
             {"type": "CNAME", "name": "vjud", "value": "@", "ttl": 3600}
+            {"type": "CNAME", "name": "jabber", "value": "@", "ttl": 3600}
         ],
         "mail": [
             {"type": "MX", "name": "@", "value": "10 domain.tld.", "ttl": 3600},
@@ -388,6 +391,7 @@ def _build_dns_conf(domain, ttl=3600):
         ["muc", ttl, "CNAME", "@"],
         ["pubsub", ttl, "CNAME", "@"],
         ["vjud", ttl, "CNAME", "@"],
+        ["jabber", ttl, "CNAME", "@"],
     ]
 
     # SPF record
