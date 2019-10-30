@@ -81,7 +81,10 @@ Component "jabber.{{ domain }}" "http_upload"
 
   http_file_size_limit = 6*1024*1024
   http_file_quota = 60*1024*1024
-
+  http_upload_file_size_limit = 100 * 1024 * 1024 -- bytes
+  http_upload_quota = 10 * 1024 * 1024 * 1024 -- bytes
+  http_upload_path = "/var/lib/metronome/jabber.{{ domain }}"
+  http_external_url = "https://jabber.{{ domain }}/"
 
 ---Set up a VJUD service
 Component "vjud.{{ domain }}" "vjud"
