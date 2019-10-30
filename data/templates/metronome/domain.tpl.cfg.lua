@@ -24,6 +24,11 @@ disco_items = {
   { "vjud.{{ domain }}" }
 };
 
+--contact_info = {
+--  abuse = { "mailto:abuse@{{ domain }}", "xmpp:admin@{{ domain }}" };
+--  admin = { "mailto:root@{{ domain }}", "xmpp:admin@{{ domain }}" };
+--};
+
 -- BOSH configuration (mod_bosh)
 consider_bosh_secure = true
 cross_domain_bosh = true
