@@ -20,7 +20,7 @@ VirtualHost "{{ domain }}"
 disco_items = {
   { "muc.{{ domain }}" },
   { "pubsub.{{ domain }}" },
-  { "upload.{{ domain }}" },
+  { "jabber.{{ domain }}" },
   { "vjud.{{ domain }}" }
 };
 
