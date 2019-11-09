@@ -36,6 +36,10 @@ do_pre_regen() {
     [[ $domain_list =~ $domain ]] \
       || touch "${metronome_conf_dir}/${file}"
   done
+
+  # create director for http_upload
+  mkdir -p "/var/www/jabber.${domain}/upload"
+  chown -R metronome:www-data "/var/www/jabber.${domain}"
 }
 
 do_post_regen() {

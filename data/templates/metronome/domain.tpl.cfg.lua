@@ -15,49 +15,22 @@ VirtualHost "{{ domain }}"
     },
   }
 
+  -- Discovery items
+  disco_items = {
+    { "muc.{{ domain }}" },
+    { "pubsub.{{ domain }}" },
+    { "jabber.{{ domain }}" },
+    { "vjud.{{ domain }}" }
+  };
 
--- Discovery items
-disco_items = {
-  { "muc.{{ domain }}" },
-  { "pubsub.{{ domain }}" },
-  { "jabber.{{ domain }}" },
-  { "vjud.{{ domain }}" }
-};
-
---contact_info = {
---  abuse = { "mailto:abuse@{{ domain }}", "xmpp:admin@{{ domain }}" };
---  admin = { "mailto:root@{{ domain }}", "xmpp:admin@{{ domain }}" };
---};
-
--- BOSH configuration (mod_bosh)
-consider_bosh_secure = true
-cross_domain_bosh = true
-
--- WebSocket configuration (mod_websocket)
-consider_websocket_secure = true
-cross_domain_websocket = true
-
--- Disable account creation by default, for security
-allow_registration = false
-
--- Use LDAP storage backend for all stores
-storage = "ldap"
-
--- Logging configuration
-log = {
-  info = "/var/log/metronome/metronome.log"; -- Change 'info' to 'debug' for verbose logging
-  error = "/var/log/metronome/metronome.err";
-  -- "*syslog"; -- Uncomment this for logging to syslog
-  -- "*console"; -- Log to the console, useful for debugging with daemonize=false
-}
+--  contact_info = {
+--    abuse = { "mailto:abuse@{{ domain }}", "xmpp:admin@{{ domain }}" };
+--    admin = { "mailto:root@{{ domain }}", "xmpp:admin@{{ domain }}" };
+--  };
 
 ------ Components ------
 -- You can specify components to add hosts that provide special services,
 -- like multi-user conferences, and transports.
-
----Set up a local BOSH service
-Component "localhost" "http"
-  modules_enabled = { "bosh" }
 
 ---Set up a MUC (multi-user chat) room server
 Component "muc.{{ domain }}" "muc"
@@ -83,14 +56,14 @@ Component "pubsub.{{ domain }}" "pubsub"
 ---Set up a HTTP Upload service
 Component "jabber.{{ domain }}" "http_upload"
   name = "{{ domain }} Sharing Service"
-
+  http_file_path = "/var/www/jabber.{{ domain }}/upload"
+  http_external_url = "https://jabber.{{ domain }}:443"
+  http_file_base_path = "/upload"
   http_file_size_limit = 6*1024*1024
   http_file_quota = 60*1024*1024
   http_upload_file_size_limit = 100 * 1024 * 1024 -- bytes
   http_upload_quota = 10 * 1024 * 1024 * 1024 -- bytes
-  http_upload_path = "/var/lib/metronome/jabber.{{ domain }}"
-  http_external_url = "https://jabber.{{ domain }}/"
 
 ---Set up a VJUD service
 Component "vjud.{{ domain }}" "vjud"
-  ud_disco_name = "{{ domain }} User Directory"
+  vjud_disco_name = "{{ domain }} User Directory"

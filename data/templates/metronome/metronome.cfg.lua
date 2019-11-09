@@ -81,6 +81,31 @@ http_interfaces = { "127.0.0.1", "::1" }
 -- Enable IPv6
 use_ipv6 = true
 
+-- BOSH configuration (mod_bosh)
+consider_bosh_secure = true
+cross_domain_bosh = true
+
+-- WebSocket configuration (mod_websocket)
+consider_websocket_secure = true
+cross_domain_websocket = true
+
+-- Disable account creation by default, for security
+allow_registration = false
+
+-- Use LDAP storage backend for all stores
+storage = "ldap"
+
+-- Logging configuration
+log = {
+  info = "/var/log/metronome/metronome.log"; -- Change 'info' to 'debug' for verbose logging
+  error = "/var/log/metronome/metronome.err";
+  -- "*syslog"; -- Uncomment this for logging to syslog
+  -- "*console"; -- Log to the console, useful for debugging with daemonize=false
+}
+
+----Set up a local BOSH service
+--Component "localhost" "http"
+--  modules_enabled = { "bosh" }
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Metronome to serve.
