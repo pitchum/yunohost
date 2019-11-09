@@ -59,9 +59,7 @@ def domain_list():
 
     result_list = []
     for domain in result:
-        parent_domain = domain['virtualdomain'][0]
-        result_list.append(parent_domain)
-        result_list.append("jabber." + parent_domain)
+        result_list.append(domain['virtualdomain'][0])
 
     return {'domains': result_list}
 
